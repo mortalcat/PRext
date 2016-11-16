@@ -1,0 +1,28 @@
+{
+  "background": {
+    "persistent": false,
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_icon": "red.png"
+  },
+
+  "description": "Check PR Application slot",
+
+  "name": "__EAppointment_Checker_",
+  "permissions": [
+    "alarms",
+
+    "webNavigation",
+    "*://eappointment.ica.gov.sg/ibook/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["*://eappointment.ica.gov.sg/ibook/*"],
+      "js": ["jquery-3.1.1.js","content_script.js"]
+    }
+  ],
+  "version": "1.1.0",
+  "manifest_version": 2
+}
