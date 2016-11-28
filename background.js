@@ -52,7 +52,8 @@ chrome.browserAction.onClicked.addListener(function(atab) {
                                       chrome.tabs.captureVisibleTab(
                                        tab.windowId, {format: 'png', quality: 100}, function(dataURI) {//getImage? Save it
                                        console.log("picture url: " +dataURI );
-
+///data URl format:
+///data:image/png;base64,iVBORw0KGgoA
                                       });
 
 
