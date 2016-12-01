@@ -31,7 +31,7 @@ chrome.browserAction.onClicked.addListener(function(atab) {
                               }
 
 
-                              function getBlob(dataURL){
+                              function getBlob(dataURI){
                                   // convert base64 to raw binary data held in a string
                                   // doesn't handle URLEncoded DataURIs
                                   var byteString = atob(dataURI.split(',')[1]);
@@ -57,8 +57,10 @@ chrome.browserAction.onClicked.addListener(function(atab) {
                                       // `openPage` again if we had to split up the image
                                       //TODO: change
                                       var urlName = ('filesystem:chrome-extension://' +
-                                      chrome.i18n.getMessage('@@extension_id') +
-                                      '/temporary/' + filename);
+                                     chrome.i18n.getMessage('@@extension_id') +
+                                      "/temporary/"+ filename);
+
+                                      console.log(urlName);
 
                                       callback(urlName);
                                   }
@@ -100,19 +102,35 @@ chrome.browserAction.onClicked.addListener(function(atab) {
                                      } else if(request.type=="DateChosen"){
 
                                        //print out current page
+                                      //TODO: now it will only capture current tab?!!!
                                       chrome.tabs.captureVisibleTab(
                                        tab.windowId, {format: 'png', quality: 100}, function(dataURI) {//getImage? Save it
                                        console.log("picture url: " +dataURI );
                                               //TODO:put dataUrl into a file. save in local file system
 
                                               var mBlob = getBlob(dataURI);
-                                              saveBlob(mBlob, "appointmentReceipt"+Date.now(), downloadPic, mErrback);
+                                              saveBlob(mBlob, "appointmentReceipt"+Date.now()+".png", downloadPic, mErrBack);
                                               //TODO: download the url
 
                                               function mErrBack() {
+                                                  //TODO: more proper errBack
+                                                  console.log("ERR: write blob err");
 
                                               }
-                                              function downloadPic() {
+                                              function downloadPic(url) {
+                                                  //TODO:direct download is not right
+                                                  //TODO: create nwew window, point to this url?
+
+
+                                                  console.log(url);
+
+
+                                               chrome.downloads.download(  {url : url },downloadCallback);
+
+                                              }
+                                              function downloadCallback(downloadId){
+                                                  //TODO: notify user WITH DOWNLOAD FILE
+                                                  showNotification("A date for PR appointment has been booked for you",request.date);
 
                                               }
 
@@ -122,7 +140,6 @@ chrome.browserAction.onClicked.addListener(function(atab) {
                                                 });
 
 
-                                              showNotification("A date for PR appointment has been booked for you",request.date);
 
                                                 //todo:uncomment after testing
                                                     //****** close the tab
