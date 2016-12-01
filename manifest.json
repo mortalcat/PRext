@@ -19,6 +19,10 @@
     "webNavigation",
     "*://eappointment.ica.gov.sg/ibook/*",
     "*://*/*",
+
+    "<all_urls>",
+
+
     "file:///C:/Users/Shaocong/MYP/PRext/test/test.html"//TODO: Delete after testing
   ],
 
